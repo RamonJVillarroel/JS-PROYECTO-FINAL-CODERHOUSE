@@ -37,7 +37,7 @@ function elegir_producto2() {
 }
 function Compra() {
     if (producto === "1") {
-         alert("usted eligio Ramera su valor es: " + remera);
+         alert("usted eligio Remera su valor es: " + remera);
     } else if (producto === "2") {
          alert("usted eligio jeans su valor es: " + jeans);
     } else if (producto === "3") {
