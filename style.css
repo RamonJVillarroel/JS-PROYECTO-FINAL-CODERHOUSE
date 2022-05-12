@@ -1,5 +1,5 @@
 body {
-  background-color: aqua;
+  background-color: black;
 }
 .titulo {
   color: white;
@@ -7,6 +7,9 @@ body {
   text-align: center;
   font-size: 6rem;
   margin-top: 250px;
+}
+.cuerpo{
+  background-color: black;
 }
 footer{
   background-color: aliceblue;

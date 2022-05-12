@@ -1,168 +1,139 @@
-///Declaracion de funciones 
-function saludar() {
-     alert("Bienvenido " + nombre + " va a realizar una compra");
-}
-function elegir_producto() {
-     producto = prompt("ingrese un producto \n 1: REMERA=1000 \n 2: JEANS=1500 \n 3: ROPA INTERIOR=500 \n 4: ZAPATILLAS=3000  ");
-     if (producto == "1") {
-          alert("elegiste Remera");
-     } else if (producto == "2") {
-          alert("elegiste jeans");
-     } else if (producto == "3") {
-          alert("elegiste ropa interior");
-     } else if (producto == "4") {
-          alert("elegiste zapatillas");
-     }
-}
-function elegir_producto2() {
-     if (producto >= "5") {
-          alert("Debes seleccionar un producto");
-          producto2 = prompt("ingrese un producto \n 1: REMERA=1000 \n 2: JEANS=1500 \n 3: ROPA INTERIOR=500 \n 4: ZAPATILLAS=3000 ");
-          if (producto2 === "1") {
-               alert("usted eligio Remera su valor es: " + remera);
-          } else if (producto2 === "2") {
-               alert("usted eligio jeans su valor es: " + jeans);
-          } else if (producto2 === "3") {
-               alert("usted eligio ropa interior su valor es: " + ropa_interior);
-          } else if (producto2 === "4") {
-               alert("usted eligio zapatillas su valor es: " + zapatillas);
-          }
-          Compra();
-          alert("gracias por su compra")
-     }
-}
-function Compra() {
-     if (producto === "1") {
-          alert("usted eligio Remera su valor es: " + remera);
-     } else if (producto === "2") {
-          alert("usted eligio jeans su valor es: " + jeans);
-     } else if (producto === "3") {
-          alert("usted eligio ropa interior su valor es: " + ropa_interior);
-     } else if (producto === "4") {
-          alert("usted eligio zapatillas su valor es: " + zapatillas);
-     }
-}
-function despedir() {
-     alert("¡Gracias " + nombre + " por la compra, vuelva pronto!");
-}
+const Clickbutton = document.querySelectorAll('.button')
+const tbody = document.querySelector('.tbody')
+let carrito = []
 
-function mas_items() {
-     class Articulo {
-          constructor(elegir_producto3, precio, cantidad) {
-               this.elegir_producto3 = elegir_producto3;
-               this.precio = precio;
-               this.cantidad = cantidad;
-          }
-     }
-     const arrayArticulos = [];
-     let pregunta = prompt("¿desea cargar un producto? (s/n) ");
+Clickbutton.forEach(btn => {
+  btn.addEventListener('click', addToCarritoItem)
+})
 
-     while (pregunta === "s") {
-          let elegir_producto3 = prompt("ingrese el  producto que desea comprar ");
-          let precio = prompt("ingrese el precio del producto");
-          let cantidad = prompt("ingrese cuantos quiere ");
-          let articuloIngresado = new Articulo(elegir_producto3, precio, cantidad);
-          arrayArticulos.push(articuloIngresado);
-          console.log(arrayArticulos);
-          pregunta = prompt("¿desea cargar otro producto? (s/n) ");
-     }
 
-     let totalCompra = 0;
+function addToCarritoItem(e){
+  const button = e.target
+  const item = button.closest('.card')
+  const itemTitle = item.querySelector('.card-title').textContent;
+  const itemPrice = item.querySelector('.precio').textContent;
+  const itemImg = item.querySelector('.card-img-top').src;
+  
+  const newItem = {
+    title: itemTitle,
+    precio: itemPrice,
+    img: itemImg,
+    cantidad: 1
+  }
 
-     for (i = 0; i < arrayArticulos.length; i++) {
-          console.log(arrayArticulos[i]);
-          totalCompra =
-               totalCompra + arrayArticulos[i].precio * arrayArticulos[i].cantidad;
-     }
-     alert("El monto a pagar es de $  " + totalCompra);
+  addItemCarrito(newItem)
 }
 
 
-//variables
-let producto;
-let producto2;
-let remera = 1000
-let jeans = 1500
-let ropa_interior = 500
-let zapatillas = 3000
-let nombre = prompt("ingrese su nombre")
-//llamo a las funciones
-saludar();
-const items = prompt("ingrese la cantidad de items")
-if (items >= "2") {
-     mas_items();
-} else if (items <= "1") {
-     elegir_producto();
-     elegir_producto2();
+function addItemCarrito(newItem){
+
+  const alert = document.querySelector('.alert')
+
+  setTimeout( function(){
+    alert.classList.add('hide')
+  }, 2000)
+    alert.classList.remove('hide')
+
+  const InputElemnto = tbody.getElementsByClassName('input__elemento')
+  for(let i =0; i < carrito.length ; i++){
+    if(carrito[i].title.trim() === newItem.title.trim()){
+      carrito[i].cantidad ++;
+      const inputValue = InputElemnto[i]
+      inputValue.value++;
+      CarritoTotal()
+      return null;
+    }
+  }
+  
+  carrito.push(newItem)
+  
+  renderCarrito()
+} 
+
+
+function renderCarrito(){
+  tbody.innerHTML = ''
+  carrito.map(item => {
+    const tr = document.createElement('tr')
+    tr.classList.add('ItemCarrito')
+    const Content = `
+    
+    <th scope="row">1</th>
+            <td class="table__productos">
+              <img src=${item.img}  alt="">
+              <h6 class="title">${item.title}</h6>
+            </td>
+            <td class="table__price"><p>${item.precio}</p></td>
+            <td class="table__cantidad">
+              <input type="number" min="1" value=${item.cantidad} class="input__elemento">
+              <button class="delete btn btn-danger">x</button>
+            </td>
+    
+    `
+    tr.innerHTML = Content;
+    tbody.append(tr)
+
+    tr.querySelector(".delete").addEventListener('click', removeItemCarrito)
+    tr.querySelector(".input__elemento").addEventListener('change', sumaCantidad)
+  })
+  CarritoTotal()
 }
-despedir();
 
-/// ENTREGA PARA EL DOM
-let menu = document.getElementById("titulo")
-menu.innerHTML = "<a>Oasy Store</a>"
-menu.className = "navbar-brand"
+function CarritoTotal(){
+  let Total = 0;
+  const itemCartTotal = document.querySelector('.itemCartTotal')
+  carrito.forEach((item) => {
+    const precio = Number(item.precio.replace("$", ''))
+    Total = Total + precio*item.cantidad
+  })
 
-let submenu = document.getElementById("submenu")
-submenu.innerHTML = "<h1>TIENDA DE ROPA</h1>"
+  itemCartTotal.innerHTML = `Total $${Total}`
+  addLocalStorage()
+}
 
-let submenu1 = document.getElementById("submenu1")
-submenu1.innerHTML = "<h2>Productos disponibles para la compra:</h2>"
+function removeItemCarrito(e){
+  const buttonDelete = e.target
+  const tr = buttonDelete.closest(".ItemCarrito")
+  const title = tr.querySelector('.title').textContent;
+  for(let i=0; i<carrito.length ; i++){
 
-let titufoter = document.getElementById("titulo1")
-titufoter.innerHTML = "<h1>Oasy Store</h1>"
+    if(carrito[i].title.trim() === title.trim()){
+      carrito.splice(i, 1)
+    }
+  }
 
-let remover = document.getElementById("remover")
-remover.remove();
+  const alert = document.querySelector('.remove')
 
-let producticos2 = document.getElementById("producticos2")
-producticos2.innerHTML = `<img src="images/remera.jpg" class="img-fluid" alt="imgremera">
-<li>Remera $1000</li>
-<div class="d-grid gap-2 d-md-block">
-    <button class="btn btn-primary" type="button">Comprar</button>
-</div>
-<div class="d-grid gap-2 d-md-block">
-    <button class="btn btn-primary" type="button">+</button>
-</div>
-<div class="d-grid gap-2 d-md-block">
-    <button class="btn btn-primary" type="button">- </button>
-</div>`
+  setTimeout( function(){
+    alert.classList.add('remove')
+  }, 2000)
+    alert.classList.remove('remove')
 
-let producticos3 = document.getElementById("producticos3")
-producticos3.innerHTML = `<img src="images/zapatillas.jpg" class="img-fluid" alt="zapas">
-<li>Zapatillas $3000</li>
-<div class="d-grid gap-2 d-md-block">
-    <button class="btn btn-primary" type="button">Comprar</button>
-    <div class="d-grid gap-2 d-md-block">
-        <button class="btn btn-primary" type="button">+</button>
-    </div>
-    <div class="d-grid gap-2 d-md-block">
-        <button class="btn btn-primary" type="button">- </button>
-    </div>
-</div>`
+  tr.remove()
+  CarritoTotal()
+}
 
-let producticos4 = document.getElementById("producticos4")
-producticos4.innerHTML = `<img src="images/ropa_interior.jpg" class="img-fluid" alt="imagesropain">
-<li>Ropa interior $500</li>
-<div class="d-grid gap-2 d-md-block">
-    <button class="btn btn-primary" type="button">Comprar</button>
-    <div class="d-grid gap-2 d-md-block">
-        <button class="btn btn-primary" type="button">+</button>
-    </div>
-    <div class="d-grid gap-2 d-md-block">
-        <button class="btn btn-primary" type="button">- </button>
-    </div>
-</div>`
+function sumaCantidad(e){
+  const sumaInput  = e.target
+  const tr = sumaInput.closest(".ItemCarrito")
+  const title = tr.querySelector('.title').textContent;
+  carrito.forEach(item => {
+    if(item.title.trim() === title){
+      sumaInput.value < 1 ?  (sumaInput.value = 1) : sumaInput.value;
+      item.cantidad = sumaInput.value;
+      CarritoTotal()
+    }
+  })
+}
 
-let producticos5 = document.getElementById("producticos5")
-producticos5.innerHTML = `<img src="images/jeans.jpg" class="img-fluid" alt="imagesjeams">
-<li>Jeans $1500</li>
-<div class="d-grid gap-2 d-md-block">
-    <button class="btn btn-primary" type="button">Comprar</button>
-</div>
-<div class="d-grid gap-2 d-md-block">
-    <button class="btn btn-primary" type="button">+</button>
-</div>
-<div class="d-grid gap-2 d-md-block">
-    <button class="btn btn-primary" type="button">- </button>
-</div>`
+function addLocalStorage(){
+  localStorage.setItem('carrito', JSON.stringify(carrito))
+}
 
+window.onload = function(){
+  const storage = JSON.parse(localStorage.getItem('carrito'));
+  if(storage){
+    carrito = storage;
+    renderCarrito()
+  }
+}
