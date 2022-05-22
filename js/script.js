@@ -25,7 +25,7 @@ alertas.innerHTML = ` <div class="alert container position-sticky top-0 alert-pr
 </div>`
 
 
-//seccion productosss
+//seccion de productosss
 let productos = [
     { id: "1", nombre: "jeans", precio: "1500", image: "./images/jeans4.jpg" },
     { id: "2", nombre: "remera", precio: "1600", image: "./images/remera.jpg" },
@@ -33,9 +33,7 @@ let productos = [
     { id: "4", nombre: "ropa interior", precio: "1800", image: "./images/rpa.jpg" },
 
 ];
-function guardar_LS(productos) {
-    localStorage.setItem("productos", JSON.stringify(productos))
-}
+
 let container = document.getElementById("producticos")
 container.innerHTML = "";
 
@@ -54,24 +52,8 @@ productos.forEach((producto, indice) => {
 
     container.appendChild(card)
 })
-
-
 let main_carrito = document.getElementById("carrito")
-const agregar_al_carrito = (indice_del_producto) => {
-    const indice_encontrado_en_carrito = carrito.findIndex((elemento) => {
-        return elemento.id === productos[indice_del_producto].id;
-    })
-    if (indice_encontrado_en_carrito === -1) {
-        const agregarproductos = productos[indice_del_producto];
-        agregarproductos.cantidad = 1;
-        carrito.push(agregarproductos);
-        dibujar_en_carrito();
-    }
-    else {
-        carrito[indice_encontrado_en_carrito].cantidad += 1;
-        dibujar_en_carrito();
-    }
-}
+
 
 const dibujar_en_carrito = () => {
     let total = 0;
@@ -88,7 +70,7 @@ const dibujar_en_carrito = () => {
             <h5 class="text-primary">${producto.nombre} <br> Precio: $${producto.precio}</h5>
             <div class="text-primary" > Cantidad: ${producto.cantidad}</div>
             <div class="text-primary"> Subtotal: $ ${producto.precio * producto.cantidad
-            }</div>
+                }</div>
             <div class="d-grid gap-2">
             <button class="btn btn-primary button" onClick="agregar_al_carrito(${indice})">Añadir</button>
             </div>
@@ -106,20 +88,44 @@ const dibujar_en_carrito = () => {
 
         main_carrito.appendChild(totalContainer);
     } else {
+
         main_carrito.classList.remove("carrito");
-        
+
     }
 };
 
 let carrito = [];
+if(localStorage.getItem("carrito")) {
+ carrito = JSON.parse(localStorage.getItem("carrito"));
+ dibujar_en_carrito();
+}
+const agregar_al_carrito = (indice_del_producto) => {
+    const indice_encontrado_en_carrito = carrito.findIndex((elemento) => {
+        return elemento.id === productos[indice_del_producto].id;
+    })
+    if (indice_encontrado_en_carrito === -1) {
+        const agregarproductos = productos[indice_del_producto];
+        agregarproductos.cantidad = 1;
+        carrito.push(agregarproductos);
+        actualizar_storage(carrito);
+        dibujar_en_carrito();
+    }
+    else {
+        carrito[indice_encontrado_en_carrito].cantidad += 1;
+        actualizar_storage(carrito);
+        dibujar_en_carrito();
+    }
+}
 
 const eliminardelcarrito = (indice) => {
     carrito.splice(indice, 1);
+    actualizar_storage(carrito);
     dibujar_en_carrito();
 };
-guardar_LS();
 
-
+const actualizar_storage = (carrito) => {
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+};
 
 
 
