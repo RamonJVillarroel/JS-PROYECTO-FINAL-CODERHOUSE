@@ -27,10 +27,10 @@ alertas.innerHTML = ` <div class="alert container position-sticky top-0 alert-pr
 
 //seccion de productosss
 let productos = [
-    { id: "1", nombre: "jeans", precio: "1500", image: "./images/jeans4.jpg" },
-    { id: "2", nombre: "remera", precio: "1600", image: "./images/remera.jpg" },
-    { id: "3", nombre: "zapatillas", precio: "1700", image: "./images/zapatillas.jpg" },
-    { id: "4", nombre: "ropa interior", precio: "1800", image: "./images/rpa.jpg" },
+    { id: "1", image: "./images/jeans4.jpg", nombre: "Jeans", precio: "1500" },
+    { id: "2", image: "./images/remera.jpg", nombre: "Remera", precio: "1600" },
+    { id: "3", image: "./images/zapatillas.jpg", nombre: "Zapatillas", precio: "1700" },
+    { id: "4", image: "./images/rpa.jpg", nombre: "Ropa interior", precio: "1800" },
 
 ];
 
@@ -39,12 +39,12 @@ container.innerHTML = "";
 
 productos.forEach((producto, indice) => {
     let card = document.createElement("div")
-    card.classList.add("card", "col-sm-12", "col-lg-3", "bg-dark", "m-5px")
+    card.classList.add("card", "col-sm-12", "col-lg-3", "m-5px", "mango")
     card.innerHTML = `
   
     <img src="${producto.image}" class="card-img-top" alt="...">
     <div class="card-body">
-    <h5 class="text-primary">${producto.nombre} <br>${producto.precio}</h5>
+    <h5 >${producto.nombre} <br>${producto.precio}</h5>
     <div class="d-grid gap-2">
     <button class="btn btn-primary button" onClick="agregar_al_carrito(${indice})">Añadir</button>
     </div>
@@ -66,13 +66,14 @@ const dibujar_en_carrito = () => {
             carritoContainer.className = "contenedor_carrito"
             carritoContainer.innerHTML = ` 
             <img src="${producto.image}" class="card-img-top img" alt="...">
-            <div class="card-body">
-            <h5 class="text-primary">${producto.nombre} <br> Precio: $${producto.precio}</h5>
-            <div class="text-primary" > Cantidad: ${producto.cantidad}</div>
-            <div class="text-primary"> Subtotal: $ ${producto.precio * producto.cantidad
-                }</div>
+            <div class="contenedor_carrito2">
+            <div>${producto.nombre}</div> <br> 
+            <div>Precio: $${producto.precio}</div>
+            <div> Cantidad: ${producto.cantidad}</div>
+            <div> Subtotal: $ ${producto.precio * producto.cantidad}</div>
+            </div>
             <div class="d-grid gap-2">
-            <button class="btn btn-primary button" onClick="agregar_al_carrito(${indice})">Añadir</button>
+            <button class="btn btn-primary button " onClick="agregar_al_carrito(${indice})">Añadir</button>
             </div>
             <br>
             <div class="d-grid gap-2">
@@ -95,9 +96,9 @@ const dibujar_en_carrito = () => {
 };
 
 let carrito = [];
-if(localStorage.getItem("carrito")) {
- carrito = JSON.parse(localStorage.getItem("carrito"));
- dibujar_en_carrito();
+if (localStorage.getItem("carrito")) {
+    carrito = JSON.parse(localStorage.getItem("carrito"));
+    dibujar_en_carrito();
 }
 const agregar_al_carrito = (indice_del_producto) => {
     const indice_encontrado_en_carrito = carrito.findIndex((elemento) => {

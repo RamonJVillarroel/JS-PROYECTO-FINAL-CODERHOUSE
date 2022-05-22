@@ -45,7 +45,7 @@ footer{
   padding-top: 10px;
   text-align: center;
   margin: 15px 15px 15px 15px; 
- 
+ align-items: center;
 
 }
 .carrito_total{
@@ -68,4 +68,18 @@ footer{
   text-align: center;
   font-size: 50px;
   
+}
+.contenedor_carrito2{
+  font-size: 25px;
+  text-align: center;
+  color: rgb(31, 169, 255);
+}
+.mango{
+  display: grid;
+  padding-top: 20px;
+  background-color: rgb(58, 75, 100);
+  align-items: center;
+  text-align: center;
+  font-size: 20px;
+  color: rgb(31, 169, 255);
 }
