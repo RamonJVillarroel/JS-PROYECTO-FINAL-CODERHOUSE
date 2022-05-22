@@ -36,9 +36,6 @@ let productos = [
 function guardar_LS(productos) {
     localStorage.setItem("productos", JSON.stringify(productos))
 }
-function cargardesdeLS() {
-    return JSON.parse(localStorage.getItem("producto"))
-} 
 let container = document.getElementById("producticos")
 container.innerHTML = "";
 
@@ -121,7 +118,7 @@ const eliminardelcarrito = (indice) => {
     dibujar_en_carrito();
 };
 guardar_LS();
-cargardesdeLS();
+
 
 
 
