@@ -55,7 +55,7 @@ productos.forEach((producto, indice) => {
 let main_carrito = document.getElementById("carrito")
 
 
-const dibujar_en_carrito = () => {
+const dibujar_en_carrito = () => { 
     let total = 0;
     main_carrito.className = "carrito";
     main_carrito.innerHTML = "";
@@ -95,12 +95,16 @@ const dibujar_en_carrito = () => {
     }
 };
 
-let carrito = [];
-if (localStorage.getItem("carrito")) {
-    carrito = JSON.parse(localStorage.getItem("carrito"));
-    dibujar_en_carrito();
-}
+const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+
 const agregar_al_carrito = (indice_del_producto) => {
+    //USO DE LIBRERIAS 
+    Swal.fire({
+        title: 'Usted agrego un producto',
+        icon: 'success',
+        confirmButtonText: 'ok'
+    })
     const indice_encontrado_en_carrito = carrito.findIndex((elemento) => {
         return elemento.id === productos[indice_del_producto].id;
     })
@@ -119,6 +123,14 @@ const agregar_al_carrito = (indice_del_producto) => {
 }
 
 const eliminardelcarrito = (indice) => {
+    //USO DE LIBRERIAS 
+    Swal.fire({
+        title: 'USTED ELIMINO EL PRODUCTO',
+        icon: 'warning',
+        showConfirmButton: false,
+        timer: 1500,
+
+    })
     carrito.splice(indice, 1);
     actualizar_storage(carrito);
     dibujar_en_carrito();
