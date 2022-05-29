@@ -16,24 +16,45 @@ navBar.innerHTML = `<ul class="nav nav-pills mb-3 py-3 container" id="pills-tab"
 </li>
 </ul>`;
 header.appendChild(navBar)
-let alertas = document.getElementById("alertas")
-alertas.innerHTML = ` <div class="alert container position-sticky top-0 alert-primary hide" role="alert">
-¡Se Añadido al carrito!
-</div>
-<div class="alert container position-sticky top-0 alert-danger remover" role="alert">
-¡Producto eliminado!
-</div>`
 
 
-//seccion de productosss
+//RAMA DE FETCH PARA LA ENTREGA 
+
+fetch('js/fetch.json')
+ .then((respuesta) => respuesta.json())
+ .then((data) => {
+   cargar_productos(data)
+});
+
+const cargar_productos = (data) =>{
+    productos = data
+    let container = document.getElementById("producticos")
+    container.innerHTML = "";
+    productos.forEach((producto, indice) => {
+    let card = document.createElement("div")
+    card.classList.add("card", "col-sm-12", "col-lg-3", "m-5px", "mango")
+    card.innerHTML = `
+  
+    <img src="${producto.image}" class="card-img-top" alt="...">
+    <div class="card-body">
+    <h5 >${producto.nombre} <br>${producto.precio}</h5>
+    <div class="d-grid gap-2">
+    <button class="btn btn-primary button" onClick="agregar_al_carrito(${indice})">Añadir</button>
+    </div>
+    `
+
+    container.appendChild(card)
+})
+}
+/* //seccion de productosss
 let productos = [
     { id: "1", image: "./images/jeans4.jpg", nombre: "Jeans", precio: "1500" },
     { id: "2", image: "./images/remera.jpg", nombre: "Remera", precio: "1600" },
     { id: "3", image: "./images/zapatillas.jpg", nombre: "Zapatillas", precio: "1700" },
     { id: "4", image: "./images/rpa.jpg", nombre: "Ropa interior", precio: "1800" },
 
-];
-
+]; */
+/* 
 let container = document.getElementById("producticos")
 container.innerHTML = "";
 
@@ -51,8 +72,8 @@ productos.forEach((producto, indice) => {
     `
 
     container.appendChild(card)
-})
-let main_carrito = document.getElementById("carrito")
+})*/
+let main_carrito = document.getElementById("carrito") 
 
 
 const dibujar_en_carrito = () => { 

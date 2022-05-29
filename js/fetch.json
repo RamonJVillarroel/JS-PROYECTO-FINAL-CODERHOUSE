@@ -1,0 +1,9 @@
+
+[
+    { "id": "1", "image": "./images/jeans4.jpg", "nombre": "Jeans", "precio": "1500" },
+    { "id": "2", "image": "./images/remera.jpg", "nombre": "Remera", "precio": "1600" },
+    { "id": "3", "image": "./images/zapatillas.jpg", "nombre": "Zapatillas", "precio": "1700" },
+    { "id": "4", "image": "./images/rpa.jpg", "nombre": "Ropa interior", "precio": "1800" }
+    
+  
+]
