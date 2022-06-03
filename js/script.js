@@ -144,12 +144,12 @@ function carritofincompra() {
     main_carrito.innerHTML = "";
     let finalizar = document.createElement("div")
     finalizar.innerHTML = `
-  
+  <form> 
    <div class="container">
    <div class="input-group input-group-sm mb-3" >
    <span class="input-group-text" > Nombre</span>
-   <input type="text" class="form-control" aria-label="Sizing example input"
-   aria-describedby="inputGroup-sizing-sm" id="nombre" >
+   <input type="text" class="form-control"  aria-label="Sizing example input"
+   aria-describedby="inputGroup-sizing-sm" id="nombre">
    </div>
    <div class="input-group input-group-sm mb-3">
        <span class="input-group-text" id="inputGroup-sizing-sm">Apellido</span>
@@ -159,7 +159,7 @@ function carritofincompra() {
 
    <div class="input-group input-group-sm mb-3">
        <span class="input-group-text" id="inputGroup-sizing-sm">Numero</span>
-       <input type="text" class="form-control" aria-label="Sizing example input"
+       <input type="number" class="form-control" aria-label="Sizing example input"
            aria-describedby="inputGroup-sizing-sm">
    </div>
    <div class="input-group input-group-sm mb-3">
@@ -175,7 +175,9 @@ function carritofincompra() {
    <div class="d-grid gap-2">
        <button class="btn btn-primary" type="button" onClick="terminar()">ENVIAR</button>
    </div>
- </div>
+   </div>
+  </form>
+  
 
    `;
     main_carrito.appendChild(finalizar)
