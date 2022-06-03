@@ -1,97 +1,71 @@
 let header = document.getElementById("encabezado")
 let navBar = document.createElement("navb")
 navBar.classList.add("container-fluid", "position-sticky", "top-0")
-navBar.innerHTML = `<ul class="nav nav-pills mb-3 py-3 container" id="pills-tab" role="tablist">
-<li class="nav-item text-primary" role="presentation">
-    <a class="nav-link " id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
+navBar.innerHTML = `
+ <ul class="nav nav-pills mb-3 py-3 container justify-content-end" id="pills-tab" role="tablist">
+ <span class="fin_compra">La Tiendita</span>
+ <li class="nav-item text-primary" role="presentation">
+ <a class="nav-link " id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
         type="button" role="tab" aria-controls="pills-home" aria-selected="true">Home</a>
-</li>
-<li class="nav-item" role="presentation">
+    
+ </li>
+ <li class="nav-item" role="presentation">
     <a class="nav-link active" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
         type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Productos</a>
-</li>
-<li class="nav-item" role="presentation">
+ </li>
+ <li class="nav-item" role="presentation">
     <a class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact"
         type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Carrito</a>
-</li>
-</ul>`;
+ </li>
+ </ul>`;
 header.appendChild(navBar)
+let fondo = document.getElementById("fondo")
+fondo.innerHTML=`<img src="images/fondo.jpg" class="img-fluid containes -fluid" alt="fondo"></img>`;
 
+//FETCH 
+fetch('fetch.json')
+    .then((respuesta) => respuesta.json())
+    .then((data) => {
+        cargar_productos(data)
+    });
 
-//RAMA DE FETCH PARA LA ENTREGA 
-
-fetch('js/fetch.json')
- .then((respuesta) => respuesta.json())
- .then((data) => {
-   cargar_productos(data)
-});
-
-const cargar_productos = (data) =>{
-    productos = data
+const cargar_productos = (data) => {
+    Productos = data
     let container = document.getElementById("producticos")
     container.innerHTML = "";
-    productos.forEach((producto, indice) => {
-    let card = document.createElement("div")
-    card.classList.add("card", "col-sm-12", "col-lg-3", "m-5px", "mango")
-    card.innerHTML = `
+    Productos.forEach((Producto, indice) => {
+        let card = document.createElement("div")
+        card.classList.add("card", "col-sm-12", "col-lg-3", "m-5px", "mango")
+        card.innerHTML = `
   
-    <img src="${producto.image}" class="card-img-top" alt="...">
+    <img src="${Producto.image}" class="card-img-top" alt="...">
     <div class="card-body">
-    <h5 >${producto.nombre} <br>${producto.precio}</h5>
+    <h5 >${Producto.nombre} <br>${Producto.precio}</h5>
     <div class="d-grid gap-2">
     <button class="btn btn-primary button" onClick="agregar_al_carrito(${indice})">Añadir</button>
     </div>
     `
 
-    container.appendChild(card)
-})
+        container.appendChild(card)
+    })
 }
-/* //seccion de productosss
-let productos = [
-    { id: "1", image: "./images/jeans4.jpg", nombre: "Jeans", precio: "1500" },
-    { id: "2", image: "./images/remera.jpg", nombre: "Remera", precio: "1600" },
-    { id: "3", image: "./images/zapatillas.jpg", nombre: "Zapatillas", precio: "1700" },
-    { id: "4", image: "./images/rpa.jpg", nombre: "Ropa interior", precio: "1800" },
-
-]; */
-/* 
-let container = document.getElementById("producticos")
-container.innerHTML = "";
-
-productos.forEach((producto, indice) => {
-    let card = document.createElement("div")
-    card.classList.add("card", "col-sm-12", "col-lg-3", "m-5px", "mango")
-    card.innerHTML = `
-  
-    <img src="${producto.image}" class="card-img-top" alt="...">
-    <div class="card-body">
-    <h5 >${producto.nombre} <br>${producto.precio}</h5>
-    <div class="d-grid gap-2">
-    <button class="btn btn-primary button" onClick="agregar_al_carrito(${indice})">Añadir</button>
-    </div>
-    `
-
-    container.appendChild(card)
-})*/
-let main_carrito = document.getElementById("carrito") 
-
-
-const dibujar_en_carrito = () => { 
+let main_carrito = document.getElementById("carrito")
+const dibujar_en_carrito = () => {
     let total = 0;
     main_carrito.className = "carrito";
     main_carrito.innerHTML = "";
     if (carrito.length > 0) {
-        carrito.forEach((producto, indice) => {
-            total = total + producto.precio * producto.cantidad;
-            const carritoContainer = document.createElement("div");
-            carritoContainer.className = "contenedor_carrito"
-            carritoContainer.innerHTML = ` 
-            <img src="${producto.image}" class="card-img-top img" alt="...">
+        carrito.forEach((Producto, indice) => {
+            total = total + Producto.precio * Producto.cantidad;
+            const carritoC = document.createElement("div");
+            carritoC.className = "contenedor_carrito"
+            carritoC.innerHTML = ` 
+            <img src="${Producto.image}" class="card-img-top img" alt="...">
             <div class="contenedor_carrito2">
-            <div>${producto.nombre}</div> <br> 
-            <div>Precio: $${producto.precio}</div>
-            <div> Cantidad: ${producto.cantidad}</div>
-            <div> Subtotal: $ ${producto.precio * producto.cantidad}</div>
+            <div>${Producto.nombre}</div> <br> 
+            <div>Precio: $${Producto.precio}</div>
+            <div> Cantidad: ${Producto.cantidad}</div>
+            <div> Subtotal: $ ${Producto.precio * Producto.cantidad}</div>
             </div>
             <div class="d-grid gap-2">
             <button class="btn btn-primary button " onClick="agregar_al_carrito(${indice})">Añadir</button>
@@ -102,13 +76,17 @@ const dibujar_en_carrito = () => {
             </div>
             `;
 
-            main_carrito.appendChild(carritoContainer);
+            main_carrito.appendChild(carritoC);
         });
-        const totalContainer = document.createElement("div");
-        totalContainer.className = "carrito_total";
-        totalContainer.innerHTML = `<div class= "total"> TOTAL $ ${total}</div>`
+        const totalC = document.createElement("div");
+        totalC.className = "carrito_total";
+        totalC.innerHTML = `
+        <div class= "total"> TOTAL $ ${total} <br>
+        <button class="btn btn-primary button"  onClick="carritofincompra()" >Finalizar Compra</button>
+        </div>`
 
-        main_carrito.appendChild(totalContainer);
+            ;
+        main_carrito.appendChild(totalC);
     } else {
 
         main_carrito.classList.remove("carrito");
@@ -116,28 +94,28 @@ const dibujar_en_carrito = () => {
     }
 };
 
+
 const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
-
-const agregar_al_carrito = (indice_del_producto) => {
+const agregar_al_carrito = (indice_producto) => {
     //USO DE LIBRERIAS 
     Swal.fire({
         title: 'Usted agrego un producto',
         icon: 'success',
         confirmButtonText: 'ok'
     })
-    const indice_encontrado_en_carrito = carrito.findIndex((elemento) => {
-        return elemento.id === productos[indice_del_producto].id;
+    const indice_carrito = carrito.findIndex((elemento) => {
+        return elemento.id === Productos[indice_producto].id;
     })
-    if (indice_encontrado_en_carrito === -1) {
-        const agregarproductos = productos[indice_del_producto];
+    if (indice_carrito === -1) {
+        const agregarproductos = Productos[indice_producto];
         agregarproductos.cantidad = 1;
         carrito.push(agregarproductos);
         actualizar_storage(carrito);
         dibujar_en_carrito();
     }
     else {
-        carrito[indice_encontrado_en_carrito].cantidad += 1;
+        carrito[indice_carrito].cantidad += 1;
         actualizar_storage(carrito);
         dibujar_en_carrito();
     }
@@ -161,7 +139,63 @@ const actualizar_storage = (carrito) => {
     localStorage.setItem("carrito", JSON.stringify(carrito));
 };
 
+/// final del carrito 
+function carritofincompra() {
+    main_carrito.innerHTML = "";
+    let finalizar = document.createElement("div")
+    finalizar.innerHTML = `
+  
+   <div class="container">
+   <div class="input-group input-group-sm mb-3" >
+   <span class="input-group-text" > Nombre</span>
+   <input type="text" class="form-control" aria-label="Sizing example input"
+   aria-describedby="inputGroup-sizing-sm" id="nombre" >
+   </div>
+   <div class="input-group input-group-sm mb-3">
+       <span class="input-group-text" id="inputGroup-sizing-sm">Apellido</span>
+       <input type="text" class="form-control" aria-label="Sizing example input"
+           aria-describedby="inputGroup-sizing-sm">
+   </div>
 
+   <div class="input-group input-group-sm mb-3">
+       <span class="input-group-text" id="inputGroup-sizing-sm">Numero</span>
+       <input type="text" class="form-control" aria-label="Sizing example input"
+           aria-describedby="inputGroup-sizing-sm">
+   </div>
+   <div class="input-group input-group-sm mb-3">
+       <span class="input-group-text" id="inputGroup-sizing-sm">E-mail</span>
+       <input type="text" class="form-control" aria-label="Sizing example input"
+           aria-describedby="inputGroup-sizing-sm">
+   </div>
+   <div class="input-group input-group-sm mb-3">
+   <span class="input-group-text"   >Domicilio</span>
+   <input type="text" class="form-control" id="domicilio" aria-label="Sizing example input"
+       aria-describedby="inputGroup-sizing-sm">
+  </div>
+   <div class="d-grid gap-2">
+       <button class="btn btn-primary" type="button" onClick="terminar()">ENVIAR</button>
+   </div>
+ </div>
 
-
-
+   `;
+    main_carrito.appendChild(finalizar)
+}
+/// final de la compra 
+const terminar =() =>{
+    const nombreCom = document.getElementById("nombre").value;
+    const domicilioCom = document.getElementById("domicilio").value;
+    main_carrito.innerHTML = "";
+    actualizar_storage(carrito);
+    let terminarcompra=`
+    <div class="fincompra2">  ¡Gracias por su compra ${nombreCom}!<br>
+                               domicilio de llegada: ${domicilioCom} </div> `;
+    main_carrito.innerHTML= terminarcompra;
+    Swal.fire({
+        title: ` USTED FINALIZO LA COMPRA CON EXITO  `  ,
+        icon: 'success',
+        showConfirmButton: true,
+        allowOutsideClick: false,
+        timer: 1500,
+    })
+  
+}
